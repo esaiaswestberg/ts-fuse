@@ -1,8 +1,10 @@
 {
   "name": "ts-fuse",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "scripts": {},
   "keywords": [],
-  "authors": ["Esaias Westberg <esaias@westbergs.se>"],
+  "authors": [
+    "Esaias Westberg <esaias@westbergs.se>"
+  ],
   "license": "MIT"
 }
