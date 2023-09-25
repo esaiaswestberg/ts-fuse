@@ -1,3 +1,5 @@
+import type ValidationResult from '../../types/ValidationResult'
+import { RequirementValidationResult, ValidationError } from '../../types/ValidationResult'
 import Requirement from '../requirements/reqirement'
 
 export default abstract class Schema {
@@ -9,12 +11,16 @@ export default abstract class Schema {
    * @param value The value to validate.
    * @returns True if the value comforms to the schema, false otherwise.
    */
-  public validate(value: any): boolean {
-    // Validate all requirements.
-    const results = this.requirements.map((requirement) => requirement.validate(value))
+  public validate<T>(value: T): ValidationResult<T> {
+    const results = this.requirements.flatMap((requirement) => requirement.validate(value))
 
-    // If any requirement failed, the value is invalid.
-    return results.every((result) => result === true)
+    const success = results.length === 0
+    if (success) return { success, value }
+
+    return {
+      success,
+      errors: results.map(Schema.addErrorPath)
+    }
   }
 
   /**
@@ -42,5 +48,12 @@ export default abstract class Schema {
    */
   private getRequirement<T extends Requirement>(requirementClass: new () => T): T | undefined {
     return this.requirements.find((requirement) => requirement instanceof requirementClass) as T | undefined
+  }
+
+  private static addErrorPath(requirementValidationResult: RequirementValidationResult): ValidationError {
+    return {
+      ...requirementValidationResult,
+      path: []
+    }
   }
 }
