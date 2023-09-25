@@ -1,4 +1,4 @@
-import Requirement from './reqirement'
+import Requirement from '../reqirement'
 
 export default class StringLengthRequirement extends Requirement {
   private length: number | undefined
