@@ -1,7 +1,7 @@
 import f from '../../../src/index'
 import type ValidationResult from '../../../src/types/ValidationResult'
 
-describe('plain string requirement', () => {
+describe('String schema', () => {
   const schema = new f.String()
 
   describe('valid strings', () => {
