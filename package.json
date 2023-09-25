@@ -3,7 +3,8 @@
   "version": "0.1.1",
   "scripts": {
     "test": "jest",
-    "test-watch": "jest --watch"
+    "test-watch": "jest --watch",
+    "type-check": "tsc --noEmit"
   },
   "keywords": [],
   "authors": [
