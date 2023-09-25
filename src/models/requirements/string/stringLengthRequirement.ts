@@ -1,3 +1,4 @@
+import type { RequirementValidationError } from '../../../types/ValidationResult'
 import Requirement from '../reqirement'
 
 export default class StringLengthRequirement extends Requirement {
@@ -40,11 +41,66 @@ export default class StringLengthRequirement extends Requirement {
    * @param value String to check the length of.
    * @returns True if all length requirements are met, otherwise false.
    */
-  public validate(value: string) {
-    if (this.length && value.length !== this.length) return false
-    if (this.min && value.length < this.min) return false
-    if (this.max && value.length > this.max) return false
+  public validate(value: string): RequirementValidationError[] {
+    const errors: RequirementValidationError[] = []
 
-    return true
+    const lengthError = this.validateLength(value)
+    if (lengthError) errors.push(lengthError)
+
+    const minError = this.validateMin(value)
+    if (minError) errors.push(minError)
+
+    const maxError = this.validateMax(value)
+    if (maxError) errors.push(maxError)
+
+    return errors
+  }
+
+  /**
+   * Validate that the string has the required length.
+   *
+   * @param value String to check the length of.
+   * @returns Undefined if the string has the required length, otherwise an error.
+   */
+  private validateLength(value: string): RequirementValidationError | undefined {
+    if (!this.length) return undefined
+    if (value.length == this.length) return undefined
+
+    return {
+      code: 'length',
+      message: `String has length of ${value.length} which does not meet the requirement of a length of ${this.length}.`
+    }
+  }
+
+  /**
+   * Validate that the string has the required minimum length.
+   *
+   * @param value String to check the length of.
+   * @returns Undefined if the string has the required minimum length, otherwise an error.
+   */
+  private validateMin(value: string): RequirementValidationError | undefined {
+    if (!this.min) return undefined
+    if (value.length >= this.min) return undefined
+
+    return {
+      code: 'minLength',
+      message: `String has length of ${value.length} which does not meet the requirement of a minimum length of ${this.min}.`
+    }
+  }
+
+  /**
+   * Validate that the string has the required maximum length.
+   *
+   * @param value String to check the length of.
+   * @returns Undefined if the string has the required maximum length, otherwise an error.
+   */
+  private validateMax(value: string): RequirementValidationError | undefined {
+    if (!this.max) return undefined
+    if (value.length <= this.max) return undefined
+
+    return {
+      code: 'maxLength',
+      message: `String has length of ${value.length} which does not meet the requirement of a maximum length of ${this.max}.`
+    }
   }
 }

@@ -1,3 +1,3 @@
 import String from './models/schemas/string'
 
-export { String }
+export default { String }

@@ -1,22 +1,40 @@
 # TS-Fuse
 
 ## Description
+
 TS-Fuse is a library to help developers ensure type safety in their runtime environment. It allows you to make sure a variable has the type and/or structure you expect it to have.
 
 ## Documentation
 
 ### Schema Validation
+
 ```typescript
 import f from 'ts-fuse'
 
-/* A schema can be used to validate a variable. */
+// A schema can be used to validate a variable.
 const stringSchema = f.String()
 
 const stringValue = 'Hello World!'
-const stringResult = stringSchema.validate(stringValue) // Returns { value: 'Hello World!', success: true, error: null }
+const stringResult = stringSchema.validate(stringValue)
+// Returns:
+// {
+//   success: true,
+//   value: 'Hello World!'
+// }
 
 const numberValue = 5
-const numberResult = stringSchema.validate(numberValue) // Returns { value: 5, success: false, error: 'Expected a string, got a number.' }
+const numberResult = stringSchema.validate(numberValue)
+// Returns:
+// {
+//   success: false,
+//   errors: [
+//     {
+//       code: 'type',
+//       message: 'Value is not a valid string.',
+//       path: []
+//     }
+//   ]
+// }
 
 /* Object schemas show a bit more information on error. */
 const objectSchema = f.Object({
@@ -30,21 +48,23 @@ const objectValue = {
 }
 
 const objectResult = objectSchema.validate(objectValue)
-/*
-  Returns: 
-  {
-    value: { name: 'John Doe', age: '25' },
-    success: false,
-    error: {
-      name: { value: 'John Doe', success: true, error: null },
-      age: { value: '25', success: false, error: 'Expected a number, got a string.' }
-    }
-  }
+// Returns:
+// {
+//   success: false,
+//   errors: [
+//     {
+//       code: 'type',
+//       message: 'Value is not a valid number.',
+//       path: ['age']
+//     }
+//   ]
+// }
 ```
 
 ### Schema Types
 
 #### Global
+
 ```typescript
 import f from 'ts-fuse'
 
@@ -57,6 +77,7 @@ const optionalStringSchema = f.String().optional()
 ```
 
 #### String
+
 ```typescript
 import f from 'ts-fuse'
 
@@ -82,6 +103,7 @@ const jsonSchema = f.String().json() // Ensures the string is a valid JSON strin
 ```
 
 #### Number
+
 ```typescript
 import f from 'ts-fuse'
 
@@ -106,6 +128,7 @@ const oddSchema = f.Number().odd() // Ensures the number is odd.
 ```
 
 #### Boolean
+
 ```typescript
 import f from 'ts-fuse'
 
@@ -114,6 +137,7 @@ const booleanSchema = f.Boolean()
 ```
 
 #### Array
+
 ```typescript
 import f from 'ts-fuse'
 
@@ -132,6 +156,7 @@ const lengthSchema = f.Array().length(5) // Ensures the array has exactly 5 item
 ```
 
 #### Object
+
 ```typescript
 import f from 'ts-fuse'
 
@@ -142,15 +167,19 @@ const objectSchema = f.Object()
 const structureSchema = f.Object({
   name: f.String(),
   age: f.Number(),
-  items: f.Array().of(f.Object({
-    name: f.String(),
-    price: f.Number()
-  }))
+  items: f.Array().of(
+    f.Object({
+      name: f.String(),
+      price: f.Number()
+    })
+  )
 })
 
 /* An object can be allowed to have more than the specified keys. */
-const partialStructureSchema = f.Object({
-  name: f.String(),
-  age: f.Number()
-}).expandable()
+const partialStructureSchema = f
+  .Object({
+    name: f.String(),
+    age: f.Number()
+  })
+  .expandable()
 ```
