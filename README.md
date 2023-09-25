@@ -5,7 +5,46 @@ TS-Fuse is a library to help developers ensure type safety in their runtime envi
 
 ## Documentation
 
-### Global
+### Schema Validation
+```typescript
+import f from 'ts-fuse'
+
+/* A schema can be used to validate a variable. */
+const stringSchema = f.String()
+
+const stringValue = 'Hello World!'
+const stringResult = stringSchema.validate(stringValue) // Returns { value: 'Hello World!', success: true, error: null }
+
+const numberValue = 5
+const numberResult = stringSchema.validate(numberValue) // Returns { value: 5, success: false, error: 'Expected a string, got a number.' }
+
+/* Object schemas show a bit more information on error. */
+const objectSchema = f.Object({
+  name: f.String(),
+  age: f.Number()
+})
+
+const objectValue = {
+  name: 'John Doe',
+  age: '25'
+}
+
+const objectResult = objectSchema.validate(objectValue)
+/*
+  Returns: 
+  {
+    value: { name: 'John Doe', age: '25' },
+    success: false,
+    error: {
+      name: { value: 'John Doe', success: true, error: null },
+      age: { value: '25', success: false, error: 'Expected a number, got a string.' }
+    }
+  }
+```
+
+### Schema Types
+
+#### Global
 ```typescript
 import f from 'ts-fuse'
 
@@ -17,7 +56,7 @@ const defaultNumberSchema = f.Number().default(0)
 const optionalStringSchema = f.String().optional()
 ```
 
-### String
+#### String
 ```typescript
 import f from 'ts-fuse'
 
@@ -42,7 +81,7 @@ const numericSchema = f.String().numeric() // Ensures the string is numeric.
 const jsonSchema = f.String().json() // Ensures the string is a valid JSON string.
 ```
 
-### Number
+#### Number
 ```typescript
 import f from 'ts-fuse'
 
@@ -66,7 +105,7 @@ const evenSchema = f.Number().even() // Ensures the number is even.
 const oddSchema = f.Number().odd() // Ensures the number is odd.
 ```
 
-### Boolean
+#### Boolean
 ```typescript
 import f from 'ts-fuse'
 
@@ -74,7 +113,7 @@ import f from 'ts-fuse'
 const booleanSchema = f.Boolean()
 ```
 
-### Array
+#### Array
 ```typescript
 import f from 'ts-fuse'
 
@@ -92,7 +131,7 @@ const maxSchema = f.Array().maxLength(5) // Ensures the array has at most 5 item
 const lengthSchema = f.Array().length(5) // Ensures the array has exactly 5 items.
 ```
 
-### Object
+#### Object
 ```typescript
 import f from 'ts-fuse'
 
