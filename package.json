@@ -1,7 +1,10 @@
 {
   "name": "ts-fuse",
   "version": "0.1.1",
-  "scripts": {},
+  "scripts": {
+    "test": "jest",
+    "test-watch": "jest --watch"
+  },
   "keywords": [],
   "authors": [
     "Esaias Westberg <esaias@westbergs.se>"
