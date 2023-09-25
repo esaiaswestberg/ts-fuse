@@ -1,4 +1,4 @@
-import type { RequirementValidationResult } from '../../../types/ValidationResult'
+import type { RequirementValidationError } from '../../../types/ValidationResult'
 import Requirement from '../reqirement'
 
 export default class StringLengthRequirement extends Requirement {
@@ -41,8 +41,8 @@ export default class StringLengthRequirement extends Requirement {
    * @param value String to check the length of.
    * @returns True if all length requirements are met, otherwise false.
    */
-  public validate(value: string): RequirementValidationResult[] {
-    const errors: RequirementValidationResult[] = []
+  public validate(value: string): RequirementValidationError[] {
+    const errors: RequirementValidationError[] = []
 
     const lengthError = this.validateLength(value)
     if (lengthError) errors.push(lengthError)
@@ -62,7 +62,7 @@ export default class StringLengthRequirement extends Requirement {
    * @param value String to check the length of.
    * @returns Undefined if the string has the required length, otherwise an error.
    */
-  private validateLength(value: string): RequirementValidationResult | undefined {
+  private validateLength(value: string): RequirementValidationError | undefined {
     if (!this.length) return undefined
     if (value.length == this.length) return undefined
 
@@ -78,7 +78,7 @@ export default class StringLengthRequirement extends Requirement {
    * @param value String to check the length of.
    * @returns Undefined if the string has the required minimum length, otherwise an error.
    */
-  private validateMin(value: string): RequirementValidationResult | undefined {
+  private validateMin(value: string): RequirementValidationError | undefined {
     if (!this.min) return undefined
     if (value.length >= this.min) return undefined
 
@@ -94,7 +94,7 @@ export default class StringLengthRequirement extends Requirement {
    * @param value String to check the length of.
    * @returns Undefined if the string has the required maximum length, otherwise an error.
    */
-  private validateMax(value: string): RequirementValidationResult | undefined {
+  private validateMax(value: string): RequirementValidationError | undefined {
     if (!this.max) return undefined
     if (value.length <= this.max) return undefined
 

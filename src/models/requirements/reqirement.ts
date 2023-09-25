@@ -1,4 +1,4 @@
-import { RequirementValidationResult } from '../../types/ValidationResult'
+import { RequirementValidationError } from '../../types/ValidationResult'
 
 export default abstract class Requirement {
   /**
@@ -6,7 +6,7 @@ export default abstract class Requirement {
    *
    * @param value Value to validate against reqirement.
    */
-  public validate(value: any): RequirementValidationResult[] {
+  public validate(value: any): RequirementValidationError[] {
     throw new Error('A blank requirement cannot be validated!')
   }
 }

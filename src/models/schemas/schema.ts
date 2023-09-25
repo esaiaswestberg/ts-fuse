@@ -1,5 +1,5 @@
 import type ValidationResult from '../../types/ValidationResult'
-import { RequirementValidationResult, ValidationError } from '../../types/ValidationResult'
+import { RequirementValidationError, ValidationError } from '../../types/ValidationResult'
 import Requirement from '../requirements/reqirement'
 
 export default abstract class Schema {
@@ -50,7 +50,7 @@ export default abstract class Schema {
     return this.requirements.find((requirement) => requirement instanceof requirementClass) as T | undefined
   }
 
-  private static addErrorPath(requirementValidationResult: RequirementValidationResult): ValidationError {
+  private static addErrorPath(requirementValidationResult: RequirementValidationError): ValidationError {
     return {
       ...requirementValidationResult,
       path: []
