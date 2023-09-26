@@ -1,3 +1,4 @@
+import NumberIntegerRequirement from '../requirements/number/numberIntegerRequirement'
 import NumberRequirement from '../requirements/number/numberRequirement'
 import Schema from './schema'
 
@@ -11,5 +12,10 @@ export default class Number extends Schema {
     super()
 
     super.createReqirement(NumberRequirement)
+  }
+
+  public int(): Number {
+    this.createReqirement(NumberIntegerRequirement)
+    return this
   }
 }
