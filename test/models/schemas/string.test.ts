@@ -1,5 +1,6 @@
 import f from '../../../src/index'
 import type ValidationResult from '../../../src/types/ValidationResult'
+import { RequirementErrorCodes } from '../../../src/types/ValidationResult'
 
 describe('String schema', () => {
   const schema = new f.String()
@@ -15,7 +16,7 @@ describe('String schema', () => {
       success: false,
       errors: [
         {
-          code: 'type',
+          code: RequirementErrorCodes.TYPE,
           message: 'Value is not a valid string.',
           path: []
         }
@@ -48,7 +49,7 @@ describe('exact length string requirement', () => {
         success: false,
         errors: [
           {
-            code: 'length',
+            code: RequirementErrorCodes.LENGTH,
             message: `String has length of 0 which does not meet the requirement of a length of ${length}.`,
             path: []
           }
@@ -63,7 +64,7 @@ describe('exact length string requirement', () => {
         success: false,
         errors: [
           {
-            code: 'length',
+            code: RequirementErrorCodes.LENGTH,
             message: `String has length of 26 which does not meet the requirement of a length of ${length}.`,
             path: []
           }

@@ -1,5 +1,6 @@
 import f from '../../../src/index'
 import type ValidationResult from '../../../src/types/ValidationResult'
+import { RequirementErrorCodes } from '../../../src/types/ValidationResult'
 
 describe('Number schema', () => {
   const schema = new f.Number()
@@ -19,7 +20,7 @@ describe('Number schema', () => {
       success: false,
       errors: [
         {
-          code: 'type',
+          code: RequirementErrorCodes.TYPE,
           message: 'Value is not a valid number.',
           path: []
         }
@@ -46,9 +47,32 @@ describe('Integer number schema', () => {
   })
 
   describe('invalid values', () => {
-    test('square root of two', () => expect(schema.validate(Math.sqrt(2)).success).toBe(false))
-    test('pi', () => expect(schema.validate(Math.PI).success).toBe(false))
-    test('eulers number', () => expect(schema.validate(Math.E).success).toBe(false))
-    test('1E-323', () => expect(schema.validate(parseFloat('1E-323')).success).toBe(false))
+    test('square root of two', () => {
+      const results = schema.validate(Math.sqrt(2))
+
+      expect(results.success).toBe(false)
+      if (!results.success) expect(results.errors[0].code).toBe(RequirementErrorCodes.PATTERN)
+    })
+
+    test('pi', () => {
+      const results = schema.validate(Math.PI)
+
+      expect(results.success).toBe(false)
+      if (!results.success) expect(results.errors[0].code).toBe(RequirementErrorCodes.PATTERN)
+    })
+
+    test('eulers number', () => {
+      const results = schema.validate(Math.E)
+
+      expect(results.success).toBe(false)
+      if (!results.success) expect(results.errors[0].code).toBe(RequirementErrorCodes.PATTERN)
+    })
+
+    test('1E-323', () => {
+      const results = schema.validate(parseFloat('1E-323'))
+
+      expect(results.success).toBe(false)
+      if (!results.success) expect(results.errors[0].code).toBe(RequirementErrorCodes.PATTERN)
+    })
   })
 })
