@@ -15,29 +15,19 @@ describe('Number schema', () => {
   })
 
   describe('invalid values', () => {
-    test('NaN', () => {
-      const result = schema.validate(NaN)
-      expect(SchemaTestUtilities.checkSchemaResultErrorCodes(result, ['TYPE'])).toBe(true)
-    })
+    const invalidTypeValueTests = [
+      { title: 'NaN', value: NaN },
+      { title: 'string', value: 'Hello' },
+      { title: 'numeric string', value: '123' },
+      { title: 'null', value: null },
+      { title: 'undefined', value: undefined }
+    ]
 
-    test('string', () => {
-      const result = schema.validate('Hello')
-      expect(SchemaTestUtilities.checkSchemaResultErrorCodes(result, ['TYPE'])).toBe(true)
-    })
-
-    test('numeric string', () => {
-      const result = schema.validate('123')
-      expect(SchemaTestUtilities.checkSchemaResultErrorCodes(result, ['TYPE'])).toBe(true)
-    })
-
-    test('null', () => {
-      const result = schema.validate(null)
-      expect(SchemaTestUtilities.checkSchemaResultErrorCodes(result, ['TYPE'])).toBe(true)
-    })
-
-    test('undefined', () => {
-      const result = schema.validate(undefined)
-      expect(SchemaTestUtilities.checkSchemaResultErrorCodes(result, ['TYPE'])).toBe(true)
+    invalidTypeValueTests.forEach((value) => {
+      test(value.title, () => {
+        const result = schema.validate(value.value)
+        expect(SchemaTestUtilities.checkSchemaResultErrorCodes(result, ['TYPE'])).toBe(true)
+      })
     })
   })
 })
@@ -54,24 +44,18 @@ describe('Integer number schema', () => {
   })
 
   describe('floating point numbers', () => {
-    test('square root of two', () => {
-      const results = schema.validate(Math.sqrt(2))
-      expect(SchemaTestUtilities.checkSchemaResultErrorCodes(results, ['PATTERN'])).toBe(true)
-    })
+    const invalidIntegerValueTests = [
+      { title: 'square root of two', value: Math.sqrt(2) },
+      { title: 'pi', value: Math.PI },
+      { title: 'eulers number', value: Math.E },
+      { title: '1E-323', value: parseFloat('1E-323') }
+    ]
 
-    test('pi', () => {
-      const results = schema.validate(Math.PI)
-      expect(SchemaTestUtilities.checkSchemaResultErrorCodes(results, ['PATTERN'])).toBe(true)
-    })
-
-    test('eulers number', () => {
-      const results = schema.validate(Math.E)
-      expect(SchemaTestUtilities.checkSchemaResultErrorCodes(results, ['PATTERN'])).toBe(true)
-    })
-
-    test('1E-323', () => {
-      const results = schema.validate(parseFloat('1E-323'))
-      expect(SchemaTestUtilities.checkSchemaResultErrorCodes(results, ['PATTERN'])).toBe(true)
+    invalidIntegerValueTests.forEach((value) => {
+      test(value.title, () => {
+        const result = schema.validate(value.value)
+        expect(SchemaTestUtilities.checkSchemaResultErrorCodes(result, ['PATTERN'])).toBe(true)
+      })
     })
   })
 })
