@@ -7,19 +7,15 @@ export default abstract class Requirement {
   }
 
   protected combineRequirementValidationResults(results: RequirementValidationResults[]): RequirementValidationResults {
-    const errorResults = results.filter((result) => {
-      result.success === false
-    })
-
-    if (errorResults.length > 0) {
+    const success = Requirement.areRequirementValidationResultsOK(results)
+    if (!success) {
       return {
         success: false,
-        // @ts-expect-error - As the filter above ensures that all results are errors, this is safe.
-        errors: errorResults.flatMap((result) => result.errors)
+        errors: Requirement.extractRequirementValidationErrors(results)
       }
     }
 
-    return { success: true }
+    return { success }
   }
 
   public static areRequirementValidationResultsOK(results: RequirementValidationResults[]): boolean {
