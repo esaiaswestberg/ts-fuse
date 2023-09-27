@@ -1,15 +1,21 @@
-import { RequirementErrorCodes, type RequirementValidationError } from '../../../types/ValidationResult'
+import { RequirementValidationErrorCode } from '../../../types/requirements/RequirementValidationError'
+import RequirementValidationResults, { RequirementValidationResultStatus } from '../../../types/requirements/RequirementValidationResults'
 import Requirement from '../reqirement'
 
 export default class StringRequirement extends Requirement {
-  public validate(value: any): RequirementValidationError[] {
-    if (typeof value === 'string') return []
-
-    return [
-      {
-        code: RequirementErrorCodes.TYPE,
-        message: 'Value is not a valid string.'
+  public validate(value: any): RequirementValidationResults {
+    if (typeof value !== 'string') {
+      return {
+        status: RequirementValidationResultStatus.ERROR,
+        errors: [
+          {
+            code: RequirementValidationErrorCode.TYPE,
+            message: 'Value must be a string'
+          }
+        ]
       }
-    ]
+    }
+
+    return { status: RequirementValidationResultStatus.OK }
   }
 }
