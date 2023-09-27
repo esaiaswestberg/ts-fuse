@@ -1,13 +1,15 @@
 {
   "name": "ts-fuse",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "scripts": {
     "build": "node build.js",
     "test": "jest",
     "test-watch": "jest --watch",
     "type-check": "tsc --noEmit"
   },
-  "keywords": [],
+  "module": "dist/index.esm.js",
+  "main": "dist/index.js",
+  "typings": "dist/index.d.ts",
   "authors": [
     "Esaias Westberg <esaias@westbergs.se>"
   ],
