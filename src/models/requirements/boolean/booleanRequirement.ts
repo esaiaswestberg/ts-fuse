@@ -1,4 +1,3 @@
-import { RequirementValidationErrorCode } from '../../../types/requirements/RequirementValidationError'
 import RequirementValidationResults, { RequirementValidationResultStatus } from '../../../types/requirements/RequirementValidationResults'
 import Requirement from '../reqirement'
 
@@ -9,7 +8,7 @@ export default class BooleanRequirement extends Requirement {
         status: RequirementValidationResultStatus.ERROR,
         errors: [
           {
-            code: RequirementValidationErrorCode.TYPE,
+            code: 'TYPE',
             message: 'Value must be a boolean'
           }
         ]

@@ -1,10 +1,4 @@
-export enum RequirementValidationErrorCode {
-  TYPE = 'TYPE',
-  LENGTH = 'LENGTH',
-  SIZE = 'SIZE',
-  PATTERN = 'PATTERN',
-  STRUCTURE = 'STRUCTURE'
-}
+export type RequirementValidationErrorCode = 'TYPE' | 'LENGTH' | 'SIZE' | 'PATTERN' | 'STRUCTURE'
 
 type RequirementValidationError = {
   code: RequirementValidationErrorCode

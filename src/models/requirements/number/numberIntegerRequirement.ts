@@ -1,4 +1,3 @@
-import { RequirementValidationErrorCode } from '../../../types/requirements/RequirementValidationError'
 import RequirementValidationResults, { RequirementValidationResultStatus } from '../../../types/requirements/RequirementValidationResults'
 import Requirement from '../reqirement'
 
@@ -11,7 +10,7 @@ export default class NumberIntegerRequirement extends Requirement {
         status: RequirementValidationResultStatus.ERROR,
         errors: [
           {
-            code: RequirementValidationErrorCode.TYPE,
+            code: 'PATTERN',
             message: 'Value must be an integer'
           }
         ]

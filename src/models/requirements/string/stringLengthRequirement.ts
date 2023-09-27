@@ -1,4 +1,3 @@
-import { RequirementValidationErrorCode } from '../../../types/requirements/RequirementValidationError'
 import RequirementValidationResults, { RequirementValidationResultStatus } from '../../../types/requirements/RequirementValidationResults'
 import Requirement from '../reqirement'
 
@@ -35,7 +34,7 @@ export default class StringLengthRequirement extends Requirement {
         status: RequirementValidationResultStatus.ERROR,
         errors: [
           {
-            code: RequirementValidationErrorCode.LENGTH,
+            code: 'LENGTH',
             message: `Value must be ${this.length} characters long`
           }
         ]
@@ -51,7 +50,7 @@ export default class StringLengthRequirement extends Requirement {
         status: RequirementValidationResultStatus.ERROR,
         errors: [
           {
-            code: RequirementValidationErrorCode.LENGTH,
+            code: 'LENGTH',
             message: `Value must be at least ${this.min} characters long`
           }
         ]
@@ -67,7 +66,7 @@ export default class StringLengthRequirement extends Requirement {
         status: RequirementValidationResultStatus.ERROR,
         errors: [
           {
-            code: RequirementValidationErrorCode.LENGTH,
+            code: 'LENGTH',
             message: `Value must be at most ${this.max} characters long`
           }
         ]
