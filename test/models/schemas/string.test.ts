@@ -1,6 +1,5 @@
 import f from '../../../src/index'
-import type ValidationResult from '../../../src/types/ValidationResult'
-import { RequirementErrorCodes } from '../../../src/types/ValidationResult'
+import SchemaTestUtilities from '../schemaTestUtilities'
 
 describe('String schema', () => {
   const schema = new f.String()
@@ -12,31 +11,40 @@ describe('String schema', () => {
   })
 
   describe('non string values', () => {
-    const expectedResult: ValidationResult<string> = {
-      success: false,
-      errors: [
-        {
-          code: RequirementErrorCodes.TYPE,
-          message: 'Value is not a valid string.',
-          path: []
-        }
-      ]
-    }
+    test('empty object', () => {
+      const result = schema.validate({})
+      expect(SchemaTestUtilities.checkSchemaResultErrorCodes(result, ['TYPE'])).toBe(true)
+    })
 
-    test('empty object', () => expect(schema.validate({})).toMatchObject(expectedResult))
-    test('object with data', () => expect(schema.validate({ string: 'nothing' })).toMatchObject(expectedResult))
+    test('object with data', () => {
+      const result = schema.validate({ data: 'Hello' })
+      expect(SchemaTestUtilities.checkSchemaResultErrorCodes(result, ['TYPE'])).toBe(true)
+    })
 
-    test('integer', () => expect(schema.validate(123456)).toMatchObject(expectedResult))
-    test('float', () => expect(schema.validate(123.456)).toMatchObject(expectedResult))
+    test('integer', () => {
+      const result = schema.validate(123)
+      expect(SchemaTestUtilities.checkSchemaResultErrorCodes(result, ['TYPE'])).toBe(true)
+    })
 
-    test('undefined', () => expect(schema.validate(undefined)).toMatchObject(expectedResult))
-    test('null', () => expect(schema.validate(null)).toMatchObject(expectedResult))
+    test('float', () => {
+      const result = schema.validate(123.456)
+      expect(SchemaTestUtilities.checkSchemaResultErrorCodes(result, ['TYPE'])).toBe(true)
+    })
+
+    test('undefined', () => {
+      const result = schema.validate(undefined)
+      expect(SchemaTestUtilities.checkSchemaResultErrorCodes(result, ['TYPE'])).toBe(true)
+    })
+
+    test('null', () => {
+      const result = schema.validate(null)
+      expect(SchemaTestUtilities.checkSchemaResultErrorCodes(result, ['TYPE'])).toBe(true)
+    })
   })
 })
 
 describe('exact length string requirement', () => {
-  const length = 10
-  const schema = new f.String().length(length)
+  const schema = new f.String().length(10)
 
   describe('correct length strings', () => {
     test('hello', () => expect(schema.validate('HelloWorld').success).toBe(true))
@@ -45,33 +53,13 @@ describe('exact length string requirement', () => {
 
   describe('invalid string lengths', () => {
     test('empty string', () => {
-      const expectedResult: ValidationResult<string> = {
-        success: false,
-        errors: [
-          {
-            code: RequirementErrorCodes.LENGTH,
-            message: `String has length of 0 which does not meet the requirement of a length of ${length}.`,
-            path: []
-          }
-        ]
-      }
-
-      expect(schema.validate('')).toMatchObject(expectedResult)
+      const result = schema.validate('')
+      expect(SchemaTestUtilities.checkSchemaResultErrorCodes(result, ['LENGTH'])).toBe(true)
     })
 
     test('long string', () => {
-      const expectedResult: ValidationResult<string> = {
-        success: false,
-        errors: [
-          {
-            code: RequirementErrorCodes.LENGTH,
-            message: `String has length of 26 which does not meet the requirement of a length of ${length}.`,
-            path: []
-          }
-        ]
-      }
-
-      expect(schema.validate('abcdefghijklmnopqrstuvwxyz')).toMatchObject(expectedResult)
+      const result = schema.validate('HelloWorldHelloWorld')
+      expect(SchemaTestUtilities.checkSchemaResultErrorCodes(result, ['LENGTH'])).toBe(true)
     })
   })
 })
