@@ -2,7 +2,7 @@ import f from '../../../src/index'
 import SchemaTestUtilities from '../schemaTestUtilities'
 
 describe('Number schema', () => {
-  const schema = new f.Number()
+  const schema = f.Number()
 
   describe('valid numbers', () => {
     test('one', () => expect(schema.validate(1).success).toBe(true))
@@ -33,7 +33,7 @@ describe('Number schema', () => {
 })
 
 describe('Integer number schema', () => {
-  const schema = new f.Number().int()
+  const schema = f.Number().int()
 
   describe('valid integers', () => {
     test('one', () => expect(schema.validate(1).success).toBe(true))
