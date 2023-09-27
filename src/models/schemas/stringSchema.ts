@@ -11,7 +11,7 @@ export default class String extends Schema {
   constructor() {
     super()
 
-    super.createRequirement(StringRequirement)
+    super.addRequirement(StringRequirement)
   }
 
   /**
@@ -21,7 +21,7 @@ export default class String extends Schema {
    * @returns The String schema.
    */
   public length(length: number): String {
-    const stringLengthRequirement = this.createRequirement(StringLengthRequirement)
+    const stringLengthRequirement = this.addRequirement(StringLengthRequirement)
     stringLengthRequirement.setLength(length)
 
     return this

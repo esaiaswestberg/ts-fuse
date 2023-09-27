@@ -1,3 +1,4 @@
+import RequirementValidationError from '../../types/requirements/RequirementValidationError'
 import RequirementValidationResults, { RequirementValidationResultStatus } from '../../types/requirements/RequirementValidationResults'
 
 export default abstract class Requirement {
@@ -19,5 +20,16 @@ export default abstract class Requirement {
     }
 
     return { status: RequirementValidationResultStatus.OK }
+  }
+
+  public static areRequirementValidationResultsOK(results: RequirementValidationResults[]): boolean {
+    return results.every((result) => result.status === RequirementValidationResultStatus.OK)
+  }
+
+  public static extractRequirementValidationErrors(results: RequirementValidationResults[]): RequirementValidationError[] {
+    return results.flatMap((result) => {
+      if (result.status === RequirementValidationResultStatus.ERROR) return result.errors
+      return []
+    })
   }
 }

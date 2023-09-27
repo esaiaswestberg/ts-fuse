@@ -1,8 +1,6 @@
-import { RequirementValidationErrorCode } from '../requirements/RequirementValidationError'
+import RequirementValidationError from '../requirements/RequirementValidationError'
 
-export type SchemaValidationError = {
-  code: RequirementValidationErrorCode
-  message: string
+export type SchemaValidationError = RequirementValidationError & {
   path: string[]
 }
 
