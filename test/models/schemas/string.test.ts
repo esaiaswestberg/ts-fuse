@@ -1,5 +1,5 @@
 import f from '../../../src/index'
-import type ValidationResult from '../../../src/types/ValidationResult'
+import SchemaTestUtilities from '../schemaTestUtilities'
 
 describe('String schema', () => {
   const schema = new f.String()
@@ -11,31 +11,26 @@ describe('String schema', () => {
   })
 
   describe('non string values', () => {
-    const expectedResult: ValidationResult<string> = {
-      success: false,
-      errors: [
-        {
-          code: 'type',
-          message: 'Value is not a valid string.',
-          path: []
-        }
-      ]
-    }
+    const invalidTypeValueTests = [
+      { title: 'empty object', value: {} },
+      { title: 'object with data', value: { data: 'Hello' } },
+      { title: 'integer', value: 123 },
+      { title: 'float', value: 123.456 },
+      { title: 'undefined', value: undefined },
+      { title: 'null', value: null }
+    ]
 
-    test('empty object', () => expect(schema.validate({})).toMatchObject(expectedResult))
-    test('object with data', () => expect(schema.validate({ string: 'nothing' })).toMatchObject(expectedResult))
-
-    test('integer', () => expect(schema.validate(123456)).toMatchObject(expectedResult))
-    test('float', () => expect(schema.validate(123.456)).toMatchObject(expectedResult))
-
-    test('undefined', () => expect(schema.validate(undefined)).toMatchObject(expectedResult))
-    test('null', () => expect(schema.validate(null)).toMatchObject(expectedResult))
+    invalidTypeValueTests.forEach((value) => {
+      test(value.title, () => {
+        const result = schema.validate(value.value)
+        expect(SchemaTestUtilities.checkSchemaResultErrorCodes(result, ['TYPE'])).toBe(true)
+      })
+    })
   })
 })
 
 describe('exact length string requirement', () => {
-  const length = 10
-  const schema = new f.String().length(length)
+  const schema = new f.String().length(10)
 
   describe('correct length strings', () => {
     test('hello', () => expect(schema.validate('HelloWorld').success).toBe(true))
@@ -44,33 +39,13 @@ describe('exact length string requirement', () => {
 
   describe('invalid string lengths', () => {
     test('empty string', () => {
-      const expectedResult: ValidationResult<string> = {
-        success: false,
-        errors: [
-          {
-            code: 'length',
-            message: `String has length of 0 which does not meet the requirement of a length of ${length}.`,
-            path: []
-          }
-        ]
-      }
-
-      expect(schema.validate('')).toMatchObject(expectedResult)
+      const result = schema.validate('')
+      expect(SchemaTestUtilities.checkSchemaResultErrorCodes(result, ['LENGTH'])).toBe(true)
     })
 
     test('long string', () => {
-      const expectedResult: ValidationResult<string> = {
-        success: false,
-        errors: [
-          {
-            code: 'length',
-            message: `String has length of 26 which does not meet the requirement of a length of ${length}.`,
-            path: []
-          }
-        ]
-      }
-
-      expect(schema.validate('abcdefghijklmnopqrstuvwxyz')).toMatchObject(expectedResult)
+      const result = schema.validate('HelloWorldHelloWorld')
+      expect(SchemaTestUtilities.checkSchemaResultErrorCodes(result, ['LENGTH'])).toBe(true)
     })
   })
 })

@@ -1,36 +1,30 @@
-import type ValidationResult from '../../types/ValidationResult'
-import { RequirementValidationError, ValidationError } from '../../types/ValidationResult'
+import RequirementValidationError from '../../types/requirements/RequirementValidationError'
+import RequirementValidationResults from '../../types/requirements/RequirementValidationResults'
+import type SchemaValidationResults from '../../types/schema/SchemaValidationResults.d'
+import { SchemaValidationError } from '../../types/schema/SchemaValidationResults.d'
 import Requirement from '../requirements/reqirement'
 
 export default abstract class Schema {
   private requirements: Requirement[] = []
 
-  /**
-   * Validate a value against the schema.
-   *
-   * @param value The value to validate.
-   * @returns True if the value comforms to the schema, false otherwise.
-   */
-  public validate<T>(value: T): ValidationResult<T> {
-    const results = this.requirements.flatMap((requirement) => requirement.validate(value))
+  public validate<T>(value: T): SchemaValidationResults<T> {
+    const requirementValidationResults = this.validateAllRequirements(value)
+    const success = Requirement.areRequirementValidationResultsOK(requirementValidationResults)
 
-    const success = results.length === 0
-    if (success) return { success, value }
+    if (!success) {
+      const requirementValidationErrors = Requirement.extractRequirementValidationErrors(requirementValidationResults)
+      const schemaValidationErrors = Schema.convertRequirementErrorsToSchemaValidationErrors(requirementValidationErrors)
 
-    return {
-      success,
-      errors: results.map(Schema.addErrorPath)
+      return {
+        success,
+        errors: schemaValidationErrors
+      }
     }
+
+    return { success, value }
   }
 
-  /**
-   * Create a new requiremet of the specified type,
-   * if no requirement of that type already exists on schema.
-   *
-   * @param requirementClass Requirement class type.
-   * @returns A requirement class instance.
-   */
-  protected createRequirement<T extends Requirement>(requirementClass: new () => T): T {
+  protected addRequirement<T extends Requirement>(requirementClass: new () => T): T {
     let requirement = this.getRequirement(requirementClass)
     if (!requirement) {
       requirement = new requirementClass()
@@ -40,19 +34,21 @@ export default abstract class Schema {
     return requirement
   }
 
-  /**
-   * Get requirement of the specified type.
-   *
-   * @param requirementClass Requirement class type.
-   * @returns The requirement class instance or undefined if none exists.
-   */
   private getRequirement<T extends Requirement>(requirementClass: new () => T): T | undefined {
     return this.requirements.find((requirement) => requirement instanceof requirementClass) as T | undefined
   }
 
-  private static addErrorPath(requirementValidationResult: RequirementValidationError): ValidationError {
+  private validateAllRequirements<T>(value: T): RequirementValidationResults[] {
+    return this.requirements.map((requirement) => requirement.validate(value))
+  }
+
+  private static convertRequirementErrorsToSchemaValidationErrors(requirementValidationResults: RequirementValidationError[]): SchemaValidationError[] {
+    return requirementValidationResults.map(Schema.convertRequirementErrorToSchemaValidationError)
+  }
+
+  private static convertRequirementErrorToSchemaValidationError(requirementValidationResults: RequirementValidationError): SchemaValidationError {
     return {
-      ...requirementValidationResult,
+      ...requirementValidationResults,
       path: []
     }
   }

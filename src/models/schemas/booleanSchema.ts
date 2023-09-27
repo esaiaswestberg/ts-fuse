@@ -5,6 +5,6 @@ export default class Boolean extends Schema {
   constructor() {
     super()
 
-    super.createRequirement(BooleanRequirement)
+    super.addRequirement(BooleanRequirement)
   }
 }

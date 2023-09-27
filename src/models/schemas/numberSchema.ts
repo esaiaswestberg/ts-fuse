@@ -11,11 +11,11 @@ export default class Number extends Schema {
   constructor() {
     super()
 
-    super.createRequirement(NumberRequirement)
+    super.addRequirement(NumberRequirement)
   }
 
   public int(): Number {
-    this.createRequirement(NumberIntegerRequirement)
+    this.addRequirement(NumberIntegerRequirement)
     return this
   }
 }

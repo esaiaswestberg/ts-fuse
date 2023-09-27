@@ -1,15 +1,20 @@
-import { RequirementErrorCodes, RequirementValidationError } from '../../../types/ValidationResult'
+import RequirementValidationResults from '../../../types/requirements/RequirementValidationResults'
 import Requirement from '../reqirement'
 
 export default class BooleanRequirement extends Requirement {
-  public validate(value: any): RequirementValidationError[] {
-    if (typeof value === 'boolean') return []
-
-    return [
-      {
-        code: RequirementErrorCodes.TYPE,
-        message: 'Value is not a boolean.'
+  public validate(value: any): RequirementValidationResults {
+    if (typeof value !== 'boolean') {
+      return {
+        success: false,
+        errors: [
+          {
+            code: 'TYPE',
+            message: 'Value must be a boolean'
+          }
+        ]
       }
-    ]
+    }
+
+    return { success: true }
   }
 }

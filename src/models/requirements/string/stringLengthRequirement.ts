@@ -1,4 +1,4 @@
-import { RequirementErrorCodes, type RequirementValidationError } from '../../../types/ValidationResult'
+import RequirementValidationResults from '../../../types/requirements/RequirementValidationResults'
 import Requirement from '../reqirement'
 
 export default class StringLengthRequirement extends Requirement {
@@ -7,59 +7,79 @@ export default class StringLengthRequirement extends Requirement {
   private max: number | undefined
 
   public setLength(length: number) {
+    if (this.min || this.max) throw new Error('Cannot set length when min or max is set')
     this.length = length
   }
 
   public setMin(min: number) {
+    if (this.length) throw new Error('Cannot set min when length is set')
+    if (this.max && min > this.max) throw new Error('Cannot set min greater than max')
+
     this.min = min
   }
 
   public setMax(max: number) {
+    if (this.length) throw new Error('Cannot set max when length is set')
+    if (this.min && max < this.min) throw new Error('Cannot set max less than min')
+
     this.max = max
   }
 
-  public validate(value: string): RequirementValidationError[] {
-    const errors: RequirementValidationError[] = []
+  public validate(value: string): RequirementValidationResults {
+    const results = []
 
-    const lengthError = this.validateLength(value)
-    if (lengthError) errors.push(lengthError)
+    results.push(this.validateExactLength(value))
+    results.push(this.validateMinLength(value))
+    results.push(this.validateMaxLength(value))
 
-    const minError = this.validateMin(value)
-    if (minError) errors.push(minError)
-
-    const maxError = this.validateMax(value)
-    if (maxError) errors.push(maxError)
-
-    return errors
+    return this.combineRequirementValidationResults(results)
   }
 
-  private validateLength(value: string): RequirementValidationError | undefined {
-    if (!this.length) return undefined
-    if (value.length == this.length) return undefined
-
-    return {
-      code: RequirementErrorCodes.LENGTH,
-      message: `String has length of ${value.length} which does not meet the requirement of a length of ${this.length}.`
+  private validateExactLength(value: string): RequirementValidationResults {
+    if (this.length && value.length !== this.length) {
+      return {
+        success: false,
+        errors: [
+          {
+            code: 'LENGTH',
+            message: `Value must be ${this.length} characters long`
+          }
+        ]
+      }
     }
+
+    return { success: true }
   }
 
-  private validateMin(value: string): RequirementValidationError | undefined {
-    if (!this.min) return undefined
-    if (value.length >= this.min) return undefined
-
-    return {
-      code: RequirementErrorCodes.LENGTH,
-      message: `String has length of ${value.length} which does not meet the requirement of a minimum length of ${this.min}.`
+  private validateMinLength(value: string): RequirementValidationResults {
+    if (this.min && value.length >= this.min) {
+      return {
+        success: false,
+        errors: [
+          {
+            code: 'LENGTH',
+            message: `Value must be at least ${this.min} characters long`
+          }
+        ]
+      }
     }
+
+    return { success: true }
   }
 
-  private validateMax(value: string): RequirementValidationError | undefined {
-    if (!this.max) return undefined
-    if (value.length <= this.max) return undefined
-
-    return {
-      code: RequirementErrorCodes.LENGTH,
-      message: `String has length of ${value.length} which does not meet the requirement of a maximum length of ${this.max}.`
+  private validateMaxLength(value: string): RequirementValidationResults {
+    if (this.max && value.length <= this.max) {
+      return {
+        success: false,
+        errors: [
+          {
+            code: 'LENGTH',
+            message: `Value must be at most ${this.max} characters long`
+          }
+        ]
+      }
     }
+
+    return { success: true }
   }
 }
