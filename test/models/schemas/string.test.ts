@@ -11,34 +11,20 @@ describe('String schema', () => {
   })
 
   describe('non string values', () => {
-    test('empty object', () => {
-      const result = schema.validate({})
-      expect(SchemaTestUtilities.checkSchemaResultErrorCodes(result, ['TYPE'])).toBe(true)
-    })
+    const invalidTypeValueTests = [
+      { title: 'empty object', value: {} },
+      { title: 'object with data', value: { data: 'Hello' } },
+      { title: 'integer', value: 123 },
+      { title: 'float', value: 123.456 },
+      { title: 'undefined', value: undefined },
+      { title: 'null', value: null }
+    ]
 
-    test('object with data', () => {
-      const result = schema.validate({ data: 'Hello' })
-      expect(SchemaTestUtilities.checkSchemaResultErrorCodes(result, ['TYPE'])).toBe(true)
-    })
-
-    test('integer', () => {
-      const result = schema.validate(123)
-      expect(SchemaTestUtilities.checkSchemaResultErrorCodes(result, ['TYPE'])).toBe(true)
-    })
-
-    test('float', () => {
-      const result = schema.validate(123.456)
-      expect(SchemaTestUtilities.checkSchemaResultErrorCodes(result, ['TYPE'])).toBe(true)
-    })
-
-    test('undefined', () => {
-      const result = schema.validate(undefined)
-      expect(SchemaTestUtilities.checkSchemaResultErrorCodes(result, ['TYPE'])).toBe(true)
-    })
-
-    test('null', () => {
-      const result = schema.validate(null)
-      expect(SchemaTestUtilities.checkSchemaResultErrorCodes(result, ['TYPE'])).toBe(true)
+    invalidTypeValueTests.forEach((value) => {
+      test(value.title, () => {
+        const result = schema.validate(value.value)
+        expect(SchemaTestUtilities.checkSchemaResultErrorCodes(result, ['TYPE'])).toBe(true)
+      })
     })
   })
 })
