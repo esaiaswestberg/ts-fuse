@@ -1,4 +1,4 @@
-import type { RequirementValidationError } from '../../../types/ValidationResult'
+import { RequirementErrorCodes, type RequirementValidationError } from '../../../types/ValidationResult'
 import Requirement from '../reqirement'
 
 export default class StringLengthRequirement extends Requirement {
@@ -38,7 +38,7 @@ export default class StringLengthRequirement extends Requirement {
     if (value.length == this.length) return undefined
 
     return {
-      code: 'length',
+      code: RequirementErrorCodes.LENGTH,
       message: `String has length of ${value.length} which does not meet the requirement of a length of ${this.length}.`
     }
   }
@@ -48,7 +48,7 @@ export default class StringLengthRequirement extends Requirement {
     if (value.length >= this.min) return undefined
 
     return {
-      code: 'minLength',
+      code: RequirementErrorCodes.LENGTH,
       message: `String has length of ${value.length} which does not meet the requirement of a minimum length of ${this.min}.`
     }
   }
@@ -58,7 +58,7 @@ export default class StringLengthRequirement extends Requirement {
     if (value.length <= this.max) return undefined
 
     return {
-      code: 'maxLength',
+      code: RequirementErrorCodes.LENGTH,
       message: `String has length of ${value.length} which does not meet the requirement of a maximum length of ${this.max}.`
     }
   }

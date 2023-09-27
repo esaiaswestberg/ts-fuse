@@ -33,8 +33,16 @@ export type ValidationError = RequirementValidationError & {
  * for a more human-readable format.
  */
 export type RequirementValidationError = {
-  code: string
+  code: RequirementErrorCodes
   message: string
+}
+
+export enum RequirementErrorCodes {
+  TYPE = 'TYPE',
+  LENGTH = 'LENGTH',
+  SIZE = 'SIZE',
+  PATTERN = 'PATTERN',
+  STRUCTURE = 'STRUCTURE'
 }
 
 export default ValidationResult
