@@ -2,7 +2,7 @@ import f from '../../../src/index'
 import SchemaTestUtilities from '../schemaTestUtilities'
 
 describe('String schema', () => {
-  const schema = new f.String()
+  const schema = f.String()
 
   describe('valid strings', () => {
     test('filled string', () => expect(schema.validate('Hello').success).toBe(true))
@@ -30,7 +30,7 @@ describe('String schema', () => {
 })
 
 describe('exact length string requirement', () => {
-  const schema = new f.String().length(10)
+  const schema = f.String().length(10)
 
   describe('correct length strings', () => {
     test('hello', () => expect(schema.validate('HelloWorld').success).toBe(true))

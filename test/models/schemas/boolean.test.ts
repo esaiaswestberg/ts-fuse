@@ -2,7 +2,7 @@ import f from '../../../src/index'
 import SchemaTestUtilities from '../schemaTestUtilities'
 
 describe('Boolean schema', () => {
-  const schema = new f.Boolean()
+  const schema = f.Boolean()
 
   describe('valid booleans', () => {
     test('true', () => expect(schema.validate(true).success).toBe(true))
