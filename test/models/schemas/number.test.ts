@@ -1,6 +1,5 @@
 import f from '../../../src/index'
-import type ValidationResult from '../../../src/types/ValidationResult'
-import { RequirementErrorCodes } from '../../../src/types/ValidationResult'
+import SchemaTestUtilities from '../schemaTestUtilities'
 
 describe('Number schema', () => {
   const schema = new f.Number()
@@ -16,63 +15,63 @@ describe('Number schema', () => {
   })
 
   describe('invalid values', () => {
-    const expectedResult: ValidationResult<number> = {
-      success: false,
-      errors: [
-        {
-          code: RequirementErrorCodes.TYPE,
-          message: 'Value is not a valid number.',
-          path: []
-        }
-      ]
-    }
+    test('NaN', () => {
+      const result = schema.validate(NaN)
+      expect(SchemaTestUtilities.checkSchemaResultErrorCodes(result, ['TYPE'])).toBe(true)
+    })
 
-    test('NaN', () => expect(schema.validate(NaN)).toMatchObject(expectedResult))
-    test('string', () => expect(schema.validate('')).toMatchObject(expectedResult))
-    test('numeric string', () => expect(schema.validate('123')).toMatchObject(expectedResult))
+    test('string', () => {
+      const result = schema.validate('Hello')
+      expect(SchemaTestUtilities.checkSchemaResultErrorCodes(result, ['TYPE'])).toBe(true)
+    })
 
-    test('null', () => expect(schema.validate(null)).toMatchObject(expectedResult))
-    test('undefined', () => expect(schema.validate(undefined)).toMatchObject(expectedResult))
+    test('numeric string', () => {
+      const result = schema.validate('123')
+      expect(SchemaTestUtilities.checkSchemaResultErrorCodes(result, ['TYPE'])).toBe(true)
+    })
+
+    test('null', () => {
+      const result = schema.validate(null)
+      expect(SchemaTestUtilities.checkSchemaResultErrorCodes(result, ['TYPE'])).toBe(true)
+    })
+
+    test('undefined', () => {
+      const result = schema.validate(undefined)
+      expect(SchemaTestUtilities.checkSchemaResultErrorCodes(result, ['TYPE'])).toBe(true)
+    })
   })
 })
 
 describe('Integer number schema', () => {
   const schema = new f.Number().int()
 
-  describe('valid numbers', () => {
+  describe('valid integers', () => {
     test('one', () => expect(schema.validate(1).success).toBe(true))
     test('zero', () => expect(schema.validate(0).success).toBe(true))
     test('negative one', () => expect(schema.validate(-1).success).toBe(true))
-    test('1E308', () => expect(schema.validate(parseFloat('1E308')).success).toBe(true))
+    test('biggest int', () => expect(schema.validate(parseFloat('1E308')).success).toBe(true))
+    test('smallest int', () => expect(schema.validate(parseFloat('-1E308')).success).toBe(true))
   })
 
-  describe('invalid values', () => {
+  describe('floating point numbers', () => {
     test('square root of two', () => {
       const results = schema.validate(Math.sqrt(2))
-
-      expect(results.success).toBe(false)
-      if (!results.success) expect(results.errors[0].code).toBe(RequirementErrorCodes.PATTERN)
+      expect(SchemaTestUtilities.checkSchemaResultErrorCodes(results, ['PATTERN'])).toBe(true)
     })
 
     test('pi', () => {
       const results = schema.validate(Math.PI)
-
-      expect(results.success).toBe(false)
-      if (!results.success) expect(results.errors[0].code).toBe(RequirementErrorCodes.PATTERN)
+      expect(SchemaTestUtilities.checkSchemaResultErrorCodes(results, ['PATTERN'])).toBe(true)
     })
 
     test('eulers number', () => {
       const results = schema.validate(Math.E)
-
-      expect(results.success).toBe(false)
-      if (!results.success) expect(results.errors[0].code).toBe(RequirementErrorCodes.PATTERN)
+      expect(SchemaTestUtilities.checkSchemaResultErrorCodes(results, ['PATTERN'])).toBe(true)
     })
 
     test('1E-323', () => {
       const results = schema.validate(parseFloat('1E-323'))
-
-      expect(results.success).toBe(false)
-      if (!results.success) expect(results.errors[0].code).toBe(RequirementErrorCodes.PATTERN)
+      expect(SchemaTestUtilities.checkSchemaResultErrorCodes(results, ['PATTERN'])).toBe(true)
     })
   })
 })
