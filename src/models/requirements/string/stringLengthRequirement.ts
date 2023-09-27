@@ -7,14 +7,21 @@ export default class StringLengthRequirement extends Requirement {
   private max: number | undefined
 
   public setLength(length: number) {
+    if (this.min || this.max) throw new Error('Cannot set length when min or max is set')
     this.length = length
   }
 
   public setMin(min: number) {
+    if (this.length) throw new Error('Cannot set min when length is set')
+    if (this.max && min > this.max) throw new Error('Cannot set min greater than max')
+
     this.min = min
   }
 
   public setMax(max: number) {
+    if (this.length) throw new Error('Cannot set max when length is set')
+    if (this.min && max < this.min) throw new Error('Cannot set max less than min')
+
     this.max = max
   }
 
