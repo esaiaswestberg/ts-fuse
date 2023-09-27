@@ -1,3 +1,4 @@
-import String from './models/schemas/string'
+import Number from './models/schemas/numberSchema'
+import String from './models/schemas/stringSchema'
 
-export default { String }
+export default { String, Number }

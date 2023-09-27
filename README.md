@@ -110,9 +110,8 @@ import f from 'ts-fuse'
 /* A standard Number schema will let you ensure the variable is a number. */
 const numberSchema = f.Number()
 
-/* A number schema can ensure the value is either an Integer or a Floating Point number. */
+/* A number schema can ensure the value is an Integer. */
 const integerSchema = f.Number().int()
-const floatSchema = f.Number().float()
 
 /* A number schema can also be used to ensure the number has a minimum and maximum value. */
 const minSchema = f.Number().min(5) // Ensures the number is at least 5.
