@@ -1,11 +1,11 @@
-import RequirementValidationResults, { RequirementValidationResultStatus } from '../../../types/requirements/RequirementValidationResults'
+import RequirementValidationResults from '../../../types/requirements/RequirementValidationResults'
 import Requirement from '../reqirement'
 
 export default class StringRequirement extends Requirement {
   public validate(value: any): RequirementValidationResults {
     if (typeof value !== 'string') {
       return {
-        status: RequirementValidationResultStatus.ERROR,
+        success: false,
         errors: [
           {
             code: 'TYPE',
@@ -15,6 +15,6 @@ export default class StringRequirement extends Requirement {
       }
     }
 
-    return { status: RequirementValidationResultStatus.OK }
+    return { success: true }
   }
 }

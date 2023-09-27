@@ -1,4 +1,4 @@
-import RequirementValidationResults, { RequirementValidationResultStatus } from '../../../types/requirements/RequirementValidationResults'
+import RequirementValidationResults from '../../../types/requirements/RequirementValidationResults'
 import Requirement from '../reqirement'
 
 export default class NumberIntegerRequirement extends Requirement {
@@ -7,7 +7,7 @@ export default class NumberIntegerRequirement extends Requirement {
     const remainder = Math.abs(value % 1)
     if (remainder > 0) {
       return {
-        status: RequirementValidationResultStatus.ERROR,
+        success: false,
         errors: [
           {
             code: 'PATTERN',
@@ -17,6 +17,6 @@ export default class NumberIntegerRequirement extends Requirement {
       }
     }
 
-    return { status: RequirementValidationResultStatus.OK }
+    return { success: true }
   }
 }

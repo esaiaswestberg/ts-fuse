@@ -1,4 +1,4 @@
-import RequirementValidationResults, { RequirementValidationResultStatus } from '../../../types/requirements/RequirementValidationResults'
+import RequirementValidationResults from '../../../types/requirements/RequirementValidationResults'
 import Requirement from '../reqirement'
 
 export default class StringLengthRequirement extends Requirement {
@@ -31,7 +31,7 @@ export default class StringLengthRequirement extends Requirement {
   private validateExactLength(value: string): RequirementValidationResults {
     if (this.length && value.length !== this.length) {
       return {
-        status: RequirementValidationResultStatus.ERROR,
+        success: false,
         errors: [
           {
             code: 'LENGTH',
@@ -41,13 +41,13 @@ export default class StringLengthRequirement extends Requirement {
       }
     }
 
-    return { status: RequirementValidationResultStatus.OK }
+    return { success: true }
   }
 
   private validateMinLength(value: string): RequirementValidationResults {
     if (this.min && value.length >= this.min) {
       return {
-        status: RequirementValidationResultStatus.ERROR,
+        success: false,
         errors: [
           {
             code: 'LENGTH',
@@ -57,13 +57,13 @@ export default class StringLengthRequirement extends Requirement {
       }
     }
 
-    return { status: RequirementValidationResultStatus.OK }
+    return { success: true }
   }
 
   private validateMaxLength(value: string): RequirementValidationResults {
     if (this.max && value.length <= this.max) {
       return {
-        status: RequirementValidationResultStatus.ERROR,
+        success: false,
         errors: [
           {
             code: 'LENGTH',
@@ -73,6 +73,6 @@ export default class StringLengthRequirement extends Requirement {
       }
     }
 
-    return { status: RequirementValidationResultStatus.OK }
+    return { success: true }
   }
 }

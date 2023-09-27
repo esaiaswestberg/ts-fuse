@@ -1,16 +1,11 @@
 import RequirementValidationError from './RequirementValidationError'
 
-export enum RequirementValidationResultStatus {
-  OK = 'OK',
-  ERROR = 'ERROR'
-}
-
 type RequirementValidationResults =
   | {
-      status: RequirementValidationResultStatus.OK
+      success: true
     }
   | {
-      status: RequirementValidationResultStatus.ERROR
+      success: false
       errors: RequirementValidationError[]
     }
 

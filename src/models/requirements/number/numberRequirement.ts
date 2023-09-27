@@ -1,4 +1,4 @@
-import RequirementValidationResults, { RequirementValidationResultStatus } from '../../../types/requirements/RequirementValidationResults'
+import RequirementValidationResults from '../../../types/requirements/RequirementValidationResults'
 import Requirement from '../reqirement'
 
 export default class NumberRequirement extends Requirement {
@@ -6,7 +6,7 @@ export default class NumberRequirement extends Requirement {
     const success = this.checkType(value) && this.checkNaN(value)
     if (!success) {
       return {
-        status: RequirementValidationResultStatus.ERROR,
+        success: false,
         errors: [
           {
             code: 'TYPE',
@@ -16,7 +16,7 @@ export default class NumberRequirement extends Requirement {
       }
     }
 
-    return { status: RequirementValidationResultStatus.OK }
+    return { success: true }
   }
 
   private checkType(value: any): boolean {
