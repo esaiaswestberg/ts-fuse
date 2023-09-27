@@ -1,6 +1,6 @@
 import StringLengthRequirement from '../requirements/string/stringLengthRequirement'
 import StringRequirement from '../requirements/string/stringRequirement'
-import Schema from './schemaSchema'
+import Schema from './schema'
 
 export default class String extends Schema {
   /**
@@ -11,7 +11,7 @@ export default class String extends Schema {
   constructor() {
     super()
 
-    super.createReqirement(StringRequirement)
+    super.createRequirement(StringRequirement)
   }
 
   /**
@@ -21,7 +21,7 @@ export default class String extends Schema {
    * @returns The String schema.
    */
   public length(length: number): String {
-    const stringLengthRequirement = this.createReqirement(StringLengthRequirement)
+    const stringLengthRequirement = this.createRequirement(StringLengthRequirement)
     stringLengthRequirement.setLength(length)
 
     return this

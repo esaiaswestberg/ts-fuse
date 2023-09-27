@@ -30,7 +30,7 @@ export default abstract class Schema {
    * @param requirementClass Requirement class type.
    * @returns A requirement class instance.
    */
-  protected createReqirement<T extends Requirement>(requirementClass: new () => T): T {
+  protected createRequirement<T extends Requirement>(requirementClass: new () => T): T {
     let requirement = this.getRequirement(requirementClass)
     if (!requirement) {
       requirement = new requirementClass()

@@ -1,4 +1,4 @@
-import type { RequirementValidationError } from '../../../types/ValidationResult'
+import { RequirementErrorCodes, type RequirementValidationError } from '../../../types/ValidationResult'
 import Requirement from '../reqirement'
 
 export default class NumberRequirement extends Requirement {
@@ -12,7 +12,7 @@ export default class NumberRequirement extends Requirement {
     else {
       return [
         {
-          code: 'type',
+          code: RequirementErrorCodes.TYPE,
           message: 'Value is not a valid number.'
         }
       ]
