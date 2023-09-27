@@ -1,6 +1,6 @@
 import NumberIntegerRequirement from '../requirements/number/numberIntegerRequirement'
 import NumberRequirement from '../requirements/number/numberRequirement'
-import Schema from './schema'
+import Schema from './schemaSchema'
 
 export default class Number extends Schema {
   /**

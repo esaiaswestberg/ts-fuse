@@ -1,6 +1,6 @@
 import StringLengthRequirement from '../requirements/string/stringLengthRequirement'
 import StringRequirement from '../requirements/string/stringRequirement'
-import Schema from './schema'
+import Schema from './schemaSchema'
 
 export default class String extends Schema {
   /**

@@ -6,41 +6,18 @@ export default class StringLengthRequirement extends Requirement {
   private min: number | undefined
   private max: number | undefined
 
-  /**
-   * Set the required length.
-   *
-   * @param length Length to ensure the string has.
-   */
   public setLength(length: number) {
     this.length = length
   }
 
-  /**
-   * Set the required minimum length.
-   *
-   * @param min Mimimum length to ensure the string has.
-   */
   public setMin(min: number) {
     this.min = min
   }
 
-  /**
-   * Set the required maximum length.
-   *
-   * @param min Maximum length to ensure the string has.
-   */
   public setMax(max: number) {
     this.max = max
   }
 
-  /**
-   * Validate that the strings length and set length and
-   * is within the required range. Undefined length
-   * requirements are not validated.
-   *
-   * @param value String to check the length of.
-   * @returns True if all length requirements are met, otherwise false.
-   */
   public validate(value: string): RequirementValidationError[] {
     const errors: RequirementValidationError[] = []
 
@@ -56,12 +33,6 @@ export default class StringLengthRequirement extends Requirement {
     return errors
   }
 
-  /**
-   * Validate that the string has the required length.
-   *
-   * @param value String to check the length of.
-   * @returns Undefined if the string has the required length, otherwise an error.
-   */
   private validateLength(value: string): RequirementValidationError | undefined {
     if (!this.length) return undefined
     if (value.length == this.length) return undefined
@@ -72,12 +43,6 @@ export default class StringLengthRequirement extends Requirement {
     }
   }
 
-  /**
-   * Validate that the string has the required minimum length.
-   *
-   * @param value String to check the length of.
-   * @returns Undefined if the string has the required minimum length, otherwise an error.
-   */
   private validateMin(value: string): RequirementValidationError | undefined {
     if (!this.min) return undefined
     if (value.length >= this.min) return undefined
@@ -88,12 +53,6 @@ export default class StringLengthRequirement extends Requirement {
     }
   }
 
-  /**
-   * Validate that the string has the required maximum length.
-   *
-   * @param value String to check the length of.
-   * @returns Undefined if the string has the required maximum length, otherwise an error.
-   */
   private validateMax(value: string): RequirementValidationError | undefined {
     if (!this.max) return undefined
     if (value.length <= this.max) return undefined
