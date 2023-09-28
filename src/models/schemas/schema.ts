@@ -44,6 +44,10 @@ export default abstract class Schema<T> {
     return requirement
   }
 
+  protected hasRequirement<T extends Requirement>(requirementClass: new () => T): boolean {
+    return this.requirements.some((requirement) => requirement instanceof requirementClass)
+  }
+
   private getSuccessValidationResults(value: T): SchemaValidationResults<T> {
     return { success: true, value }
   }
