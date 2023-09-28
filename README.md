@@ -66,15 +66,6 @@ const maxLengthSchema = f.String().maxLength(5) // Ensures the string is at most
 
 /* A string schema can also be used to ensure the string matches a certain pattern. */
 const regexSchema = f.String().regex(/^[a-z]+$/)
-
-/* A string schema can also be used to ensure the string is a certain type. */
-const emailSchema = f.String().email() // Ensures the string is a valid email address.
-const urlSchema = f.String().url() // Ensures the string is a valid URL.
-const ipv4Schema = f.String().ipv4() // Ensures the string is a valid IPv4 address.
-const uuidSchema = f.String().uuid() // Ensures the string is a valid UUID.
-const alphanumericSchema = f.String().alphanumeric() // Ensures the string is alphanumeric.
-const numericSchema = f.String().numeric() // Ensures the string is numeric.
-const jsonSchema = f.String().json() // Ensures the string is a valid JSON string.
 ```
 
 #### Number
