@@ -77,3 +77,27 @@ describe('regex string requirement', () => {
     })
   })
 })
+
+describe('defaults', () => {
+  const schema = f.String().default('Hello')
+
+  describe('when value is set', () => {
+    test('value is returned', () => {
+      const result = schema.validate('World')
+      expect(result.success).toBe(true)
+
+      if (result.success) expect(result.value).toBe('World')
+      else fail('Result was not successful')
+    })
+  })
+
+  describe('when value is not set', () => {
+    test('default value is returned', () => {
+      const result = schema.validate(undefined)
+      expect(result.success).toBe(true)
+
+      if (result.success) expect(result.value).toBe('Hello')
+      else fail('Result was not successful')
+    })
+  })
+})

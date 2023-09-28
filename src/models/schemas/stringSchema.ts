@@ -3,7 +3,7 @@ import StringRegexRequirement from '../requirements/string/stringRegexRequiremen
 import StringRequirement from '../requirements/string/stringRequirement'
 import Schema from './schema'
 
-export default class String extends Schema {
+export default class String extends Schema<string> {
   constructor() {
     super()
 

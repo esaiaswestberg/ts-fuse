@@ -86,12 +86,9 @@ const numberResult = stringSchema.validate(numberValue)
 ```typescript
 import f from 'ts-fuse'
 
-/* On any schema a default value can be set. This is returned as a value if the value does not fulfill the requirements. */
+/* On any schema a default value can be set. This is returned as a value if the value is undefined or null. */
 const defaultStringSchema = f.String().default('default value')
 const defaultNumberSchema = f.Number().default(0)
-
-/* A schema can also be optional. This means that the value is allowed to be undefined. */
-const optionalStringSchema = f.String().optional()
 ```
 
 #### String

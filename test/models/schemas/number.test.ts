@@ -59,3 +59,27 @@ describe('Integer number schema', () => {
     })
   })
 })
+
+describe('defaults', () => {
+  const schema = f.Number().default(32)
+
+  describe('when value is set', () => {
+    test('value is returned', () => {
+      const result = schema.validate(64)
+      expect(result.success).toBe(true)
+
+      if (result.success) expect(result.value).toBe(64)
+      else fail('Result was not successful')
+    })
+  })
+
+  describe('when value is not set', () => {
+    test('default value is returned', () => {
+      const result = schema.validate(undefined)
+      expect(result.success).toBe(true)
+
+      if (result.success) expect(result.value).toBe(32)
+      else fail('Result was not successful')
+    })
+  })
+})
