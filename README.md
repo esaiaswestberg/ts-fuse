@@ -1,7 +1,8 @@
+# TS-Fuse
+
 [![npm version](https://img.shields.io/npm/v/ts-fuse.svg)](https://www.npmjs.com/package/ts-fuse)
 [![Downloads](https://img.shields.io/npm/dm/ts-fuse.svg)](https://www.npmjs.com/package/ts-fuse)
-
-# TS-Fuse
+[![GitHub](https://img.shields.io/github/license/esaiaswestberg/ts-fuse)](https://www.github.com/esaiaswestberg/ts-fuse)
 
 [Getting started](#getting-started) | [Documentation](#documentation) | [Contributing](/CONTRIBUTING.md) | [License](/LICENSE)
 
