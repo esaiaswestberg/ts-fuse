@@ -1,3 +1,4 @@
+import RequirementValidationError from '../../types/requirements/RequirementValidationError'
 import RequirementValidationResults from '../../types/requirements/RequirementValidationResults'
 import type SchemaValidationResults from '../../types/schema/SchemaValidationResults.d'
 import Requirement from '../requirements/reqirement'
@@ -13,22 +14,20 @@ export default abstract class Schema<T> {
     return this
   }
 
-  public validate(input: any): SchemaValidationResults<T> {
-    const value = this.getValueWithDefaultApplied(input)
+  public validate(value: any): SchemaValidationResults<T> {
+    if (this.shouldReturnDefault(value)) {
+      return this.getSuccessValidationResults(this.defaultValue as T)
+    }
 
     const requirementValidationResults = this.validateAllRequirements(value)
     const success = Requirement.areRequirementValidationResultsOK(requirementValidationResults)
 
     if (!success) {
       const requirementValidationErrors = Requirement.extractRequirementValidationErrors(requirementValidationResults)
-
-      return {
-        success,
-        errors: requirementValidationErrors
-      }
+      return this.getFailureValidationResults(requirementValidationErrors)
     }
 
-    return { success, value }
+    return this.getSuccessValidationResults(value)
   }
 
   protected addRequirement<T extends Requirement>(requirementClass: new () => T): T {
@@ -41,12 +40,19 @@ export default abstract class Schema<T> {
     return requirement
   }
 
-  private getValueWithDefaultApplied(value: any) {
+  private getSuccessValidationResults(value: T): SchemaValidationResults<T> {
+    return { success: true, value }
+  }
+
+  private getFailureValidationResults(errors: RequirementValidationError[]): SchemaValidationResults<T> {
+    return { success: false, errors }
+  }
+
+  private shouldReturnDefault(value: any): boolean {
     const valueIsUnset = value === undefined || value === null
     const hasDefaultValue = this.defaultValue !== undefined
 
-    if (valueIsUnset && hasDefaultValue) return this.defaultValue
-    return value
+    return valueIsUnset && hasDefaultValue
   }
 
   private getRequirement<T extends Requirement>(requirementClass: new () => T): T | undefined {
