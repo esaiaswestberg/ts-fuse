@@ -1,7 +1,5 @@
-import RequirementValidationError from '../../types/requirements/RequirementValidationError'
 import RequirementValidationResults from '../../types/requirements/RequirementValidationResults'
 import type SchemaValidationResults from '../../types/schema/SchemaValidationResults.d'
-import { SchemaValidationError } from '../../types/schema/SchemaValidationResults.d'
 import Requirement from '../requirements/reqirement'
 
 export default abstract class Schema {
@@ -13,11 +11,10 @@ export default abstract class Schema {
 
     if (!success) {
       const requirementValidationErrors = Requirement.extractRequirementValidationErrors(requirementValidationResults)
-      const schemaValidationErrors = Schema.convertRequirementErrorsToSchemaValidationErrors(requirementValidationErrors)
 
       return {
         success,
-        errors: schemaValidationErrors
+        errors: requirementValidationErrors
       }
     }
 
@@ -40,16 +37,5 @@ export default abstract class Schema {
 
   private validateAllRequirements<T>(value: T): RequirementValidationResults[] {
     return this.requirements.map((requirement) => requirement.validate(value))
-  }
-
-  private static convertRequirementErrorsToSchemaValidationErrors(requirementValidationResults: RequirementValidationError[]): SchemaValidationError[] {
-    return requirementValidationResults.map(Schema.convertRequirementErrorToSchemaValidationError)
-  }
-
-  private static convertRequirementErrorToSchemaValidationError(requirementValidationResults: RequirementValidationError): SchemaValidationError {
-    return {
-      ...requirementValidationResults,
-      path: []
-    }
   }
 }

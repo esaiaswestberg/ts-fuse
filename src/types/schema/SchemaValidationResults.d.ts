@@ -1,9 +1,5 @@
 import RequirementValidationError from '../requirements/RequirementValidationError'
 
-export type SchemaValidationError = RequirementValidationError & {
-  path: string[]
-}
-
 type SchemaValidationResults<T> =
   | {
       success: true
@@ -11,7 +7,7 @@ type SchemaValidationResults<T> =
     }
   | {
       success: false
-      errors: SchemaValidationError[]
+      errors: RequirementValidationError[]
     }
 
 export default SchemaValidationResults

@@ -31,31 +31,6 @@ const numberResult = stringSchema.validate(numberValue)
 //     {
 //       code: 'type',
 //       message: 'Value is not a valid string.',
-//       path: []
-//     }
-//   ]
-// }
-
-/* Object schemas show a bit more information on error. */
-const objectSchema = f.Object({
-  name: f.String(),
-  age: f.Number()
-})
-
-const objectValue = {
-  name: 'John Doe',
-  age: '25'
-}
-
-const objectResult = objectSchema.validate(objectValue)
-// Returns:
-// {
-//   success: false,
-//   errors: [
-//     {
-//       code: 'type',
-//       message: 'Value is not a valid number.',
-//       path: ['age']
 //     }
 //   ]
 // }
@@ -133,52 +108,4 @@ import f from 'ts-fuse'
 
 /* A standard Boolean schema will let you ensure the variable is a boolean. */
 const booleanSchema = f.Boolean()
-```
-
-#### Array
-
-```typescript
-import f from 'ts-fuse'
-
-/* A standard Array schema will let you ensure the variable is an array. */
-const arraySchema = f.Array()
-
-/* Am array schema can also be used to ensure it only contains one type of element. */
-const stringArraySchema = f.Array().of(f.String())
-
-/* An array schema can also be used to ensure the array has a minimum and maximum length. */
-const minSchema = f.Array().minLength(5) // Ensures the array has at least 5 items.
-const maxSchema = f.Array().maxLength(5) // Ensures the array has at most 5 items.
-
-/* An array schema can also be used to ensure the array has a certain length. */
-const lengthSchema = f.Array().length(5) // Ensures the array has exactly 5 items.
-```
-
-#### Object
-
-```typescript
-import f from 'ts-fuse'
-
-/* A standard Object schema will let you ensure the variable is an object. */
-const objectSchema = f.Object()
-
-/* An object schema can also be used to ensure it has a certain structure. */
-const structureSchema = f.Object({
-  name: f.String(),
-  age: f.Number(),
-  items: f.Array().of(
-    f.Object({
-      name: f.String(),
-      price: f.Number()
-    })
-  )
-})
-
-/* An object can be allowed to have more than the specified keys. */
-const partialStructureSchema = f
-  .Object({
-    name: f.String(),
-    age: f.Number()
-  })
-  .expandable()
 ```
