@@ -31,31 +31,6 @@ const numberResult = stringSchema.validate(numberValue)
 //     {
 //       code: 'type',
 //       message: 'Value is not a valid string.',
-//       path: []
-//     }
-//   ]
-// }
-
-/* Object schemas show a bit more information on error. */
-const objectSchema = f.Object({
-  name: f.String(),
-  age: f.Number()
-})
-
-const objectValue = {
-  name: 'John Doe',
-  age: '25'
-}
-
-const objectResult = objectSchema.validate(objectValue)
-// Returns:
-// {
-//   success: false,
-//   errors: [
-//     {
-//       code: 'type',
-//       message: 'Value is not a valid number.',
-//       path: ['age']
 //     }
 //   ]
 // }
@@ -91,15 +66,6 @@ const maxLengthSchema = f.String().maxLength(5) // Ensures the string is at most
 
 /* A string schema can also be used to ensure the string matches a certain pattern. */
 const regexSchema = f.String().regex(/^[a-z]+$/)
-
-/* A string schema can also be used to ensure the string is a certain type. */
-const emailSchema = f.String().email() // Ensures the string is a valid email address.
-const urlSchema = f.String().url() // Ensures the string is a valid URL.
-const ipv4Schema = f.String().ipv4() // Ensures the string is a valid IPv4 address.
-const uuidSchema = f.String().uuid() // Ensures the string is a valid UUID.
-const alphanumericSchema = f.String().alphanumeric() // Ensures the string is alphanumeric.
-const numericSchema = f.String().numeric() // Ensures the string is numeric.
-const jsonSchema = f.String().json() // Ensures the string is a valid JSON string.
 ```
 
 #### Number
@@ -133,52 +99,4 @@ import f from 'ts-fuse'
 
 /* A standard Boolean schema will let you ensure the variable is a boolean. */
 const booleanSchema = f.Boolean()
-```
-
-#### Array
-
-```typescript
-import f from 'ts-fuse'
-
-/* A standard Array schema will let you ensure the variable is an array. */
-const arraySchema = f.Array()
-
-/* Am array schema can also be used to ensure it only contains one type of element. */
-const stringArraySchema = f.Array().of(f.String())
-
-/* An array schema can also be used to ensure the array has a minimum and maximum length. */
-const minSchema = f.Array().minLength(5) // Ensures the array has at least 5 items.
-const maxSchema = f.Array().maxLength(5) // Ensures the array has at most 5 items.
-
-/* An array schema can also be used to ensure the array has a certain length. */
-const lengthSchema = f.Array().length(5) // Ensures the array has exactly 5 items.
-```
-
-#### Object
-
-```typescript
-import f from 'ts-fuse'
-
-/* A standard Object schema will let you ensure the variable is an object. */
-const objectSchema = f.Object()
-
-/* An object schema can also be used to ensure it has a certain structure. */
-const structureSchema = f.Object({
-  name: f.String(),
-  age: f.Number(),
-  items: f.Array().of(
-    f.Object({
-      name: f.String(),
-      price: f.Number()
-    })
-  )
-})
-
-/* An object can be allowed to have more than the specified keys. */
-const partialStructureSchema = f
-  .Object({
-    name: f.String(),
-    age: f.Number()
-  })
-  .expandable()
 ```

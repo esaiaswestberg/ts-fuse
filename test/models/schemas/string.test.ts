@@ -49,3 +49,31 @@ describe('exact length string requirement', () => {
     })
   })
 })
+
+describe('regex string requirement', () => {
+  const schema = f.String().regex(/^[a-z]+$/)
+
+  describe('matching strings', () => {
+    test('single character', () => expect(schema.validate('a').success).toBe(true))
+    test('short word', () => expect(schema.validate('short').success).toBe(true))
+    test('long string', () => expect(schema.validate('thisisalongbutstillvalidstring').success).toBe(true))
+  })
+
+  describe('non matching strings', () => {
+    const invalidStringValueTests = [
+      { title: 'empty string', value: '' },
+      { title: 'string with numbers', value: '123' },
+      { title: 'string with spaces', value: 'hello world' },
+      { title: 'string with special characters', value: 'hello!@#$%^&*()' },
+      { title: 'string with emoji', value: '😋📙' },
+      { title: 'string with emoji and letters', value: 'abc😋📙hello' }
+    ]
+
+    invalidStringValueTests.forEach((value) => {
+      test(value.title, () => {
+        const result = schema.validate(value.value)
+        expect(SchemaTestUtilities.checkSchemaResultErrorCodes(result, ['PATTERN'])).toBe(true)
+      })
+    })
+  })
+})
