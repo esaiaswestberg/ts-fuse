@@ -1,3 +1,6 @@
+[![npm version](https://img.shields.io/npm/v/ts-fuse.svg)](https://www.npmjs.com/package/ts-fuse)
+[![Downloads](https://img.shields.io/npm/dm/ts-fuse.svg)](https://www.npmjs.com/package/ts-fuse)
+
 # TS-Fuse
 
 ## Getting started
