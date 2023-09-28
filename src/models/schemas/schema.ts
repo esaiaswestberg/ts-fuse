@@ -19,6 +19,10 @@ export default abstract class Schema<T> {
       return this.getSuccessValidationResults(this.defaultValue as T)
     }
 
+    return this.getValidationResults(value)
+  }
+
+  private getValidationResults(value: any): SchemaValidationResults<T> {
     const requirementValidationResults = this.validateAllRequirements(value)
     const success = Requirement.areRequirementValidationResultsOK(requirementValidationResults)
 
