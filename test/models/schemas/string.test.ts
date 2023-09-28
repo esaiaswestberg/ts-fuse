@@ -50,6 +50,43 @@ describe('exact length string requirement', () => {
   })
 })
 
+describe('min length string requirement', () => {
+  const schema = f.String().minLength(5)
+
+  describe('correct length strings', () => {
+    test('hello', () => expect(schema.validate('Hello').success).toBe(true))
+    test('emoji string', () => expect(schema.validate('😋📙📙').success).toBe(true))
+  })
+
+  describe('invalid string lengths', () => {
+    test('empty string', () => {
+      const result = schema.validate('')
+      expect(SchemaTestUtilities.checkSchemaResultErrorCodes(result, ['LENGTH'])).toBe(true)
+    })
+
+    test('short string', () => {
+      const result = schema.validate('Hi')
+      expect(SchemaTestUtilities.checkSchemaResultErrorCodes(result, ['LENGTH'])).toBe(true)
+    })
+  })
+})
+
+describe('max length string requirement', () => {
+  const schema = f.String().maxLength(5)
+
+  describe('correct length strings', () => {
+    test('hello', () => expect(schema.validate('Hello').success).toBe(true))
+    test('emoji string', () => expect(schema.validate('😋📙').success).toBe(true))
+  })
+
+  describe('invalid string lengths', () => {
+    test('long string', () => {
+      const result = schema.validate('HelloWorld')
+      expect(SchemaTestUtilities.checkSchemaResultErrorCodes(result, ['LENGTH'])).toBe(true)
+    })
+  })
+})
+
 describe('regex string requirement', () => {
   const schema = f.String().regex(/^[a-z]+$/)
 
