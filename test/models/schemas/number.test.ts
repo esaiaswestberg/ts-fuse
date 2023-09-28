@@ -83,3 +83,49 @@ describe('defaults', () => {
     })
   })
 })
+
+describe('positive numbers', () => {
+  const schema = f.Number().positive()
+
+  describe('valid positive numbers', () => {
+    test('one', () => expect(schema.validate(1).success).toBe(true))
+    test('biggest positive number', () => expect(schema.validate(parseFloat('1E308')).success).toBe(true))
+  })
+
+  describe('invalid positive numbers', () => {
+    const invalidPositiveNumberTests = [
+      { title: 'negative one', value: -1 },
+      { title: 'biggest negative number', value: parseFloat('-1E308') }
+    ]
+
+    invalidPositiveNumberTests.forEach((value) => {
+      test(value.title, () => {
+        const result = schema.validate(value.value)
+        expect(SchemaTestUtilities.checkSchemaResultErrorCodes(result, ['SIZE'])).toBe(true)
+      })
+    })
+  })
+})
+
+describe('negative numbers', () => {
+  const schema = f.Number().negative()
+
+  describe('valid negative numbers', () => {
+    test('negative one', () => expect(schema.validate(-1).success).toBe(true))
+    test('biggest negative number', () => expect(schema.validate(parseFloat('-1E308')).success).toBe(true))
+  })
+
+  describe('invalid negative numbers', () => {
+    const invalidNegativeNumberTests = [
+      { title: 'one', value: 1 },
+      { title: 'biggest positive number', value: parseFloat('1E308') }
+    ]
+
+    invalidNegativeNumberTests.forEach((value) => {
+      test(value.title, () => {
+        const result = schema.validate(value.value)
+        expect(SchemaTestUtilities.checkSchemaResultErrorCodes(result, ['SIZE'])).toBe(true)
+      })
+    })
+  })
+})
