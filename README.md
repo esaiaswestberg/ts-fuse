@@ -3,6 +3,8 @@
 
 # TS-Fuse
 
+[Getting started](#getting-started) | [Documentation](#documentation) | [Contributing](/CONTRIBUTING.md) | [License](/LICENSE)
+
 ## Getting started
 
 TS-Fuse allows you to validate user input. Currently we support validating `String`, `Number` & `Boolean` variables. To get started install `ts-fuse` like this:
