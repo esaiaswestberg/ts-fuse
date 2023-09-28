@@ -34,3 +34,19 @@ This should be a description of your development environment. This should includ
 - Node.js version
 - TS-Fuse version
 - Any other relevant information
+
+## Suggest a feature
+
+If you have an idea for a feature that you would like to see in TS-Fuse, you can suggest it by [creating an issue](https://github.com/esaiaswestberg/ts-fuse/issues/new). When you create an issue, please make sure to include the following:
+
+### Feature title
+
+This should be a short title for the feature that roughly describes what the feature is.
+
+### Feature description
+
+This should be a description of the feature. It should be long enough to be descriptive, but short enough to be read in a few minutes.
+
+### Example code
+
+This should be an example of how the feature could be used. It should be as short as possible, but still show how the feature could be used.
