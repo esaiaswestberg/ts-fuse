@@ -1,27 +1,17 @@
 const { build } = require('esbuild')
-const { Generator } = require('npm-dts')
+const { dtsPlugin } = require('esbuild-plugin-d.ts')
 
 const shared = {
+  platform: 'node',
   entryPoints: ['src/index.ts'],
-  bundle: true
+  bundle: true,
+  plugins: [dtsPlugin()]
 }
-
-// Build commonjs
-build({
-  ...shared,
-  outfile: 'dist/index.js',
-  format: 'cjs'
-})
 
 // Build esm
 build({
   ...shared,
-  outfile: 'dist/index.esm.js',
+  target: 'esnext',
+  outfile: 'dist/index.mjs',
   format: 'esm'
 })
-
-// Generate types
-new Generator({
-  entry: 'src/index.ts',
-  output: 'dist/index.d.ts'
-}).generate()
