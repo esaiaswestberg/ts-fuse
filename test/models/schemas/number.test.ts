@@ -129,3 +129,33 @@ describe('negative numbers', () => {
     })
   })
 })
+
+describe('number even parity', () => {
+  const schema = f.Number().int().even()
+
+  describe('valid even numbers', () => {
+    test('two', () => expect(schema.validate(2).success).toBe(true))
+  })
+
+  describe('invalid even numbers', () => {
+    test('one', () => {
+      const result = schema.validate(1)
+      expect(SchemaTestUtilities.checkSchemaResultErrorCodes(result, ['SIZE'])).toBe(true)
+    })
+  })
+})
+
+describe('number odd parity', () => {
+  const schema = f.Number().int().odd()
+
+  describe('valid odd numbers', () => {
+    test('one', () => expect(schema.validate(1).success).toBe(true))
+  })
+
+  describe('invalid odd numbers', () => {
+    test('two', () => {
+      const result = schema.validate(2)
+      expect(SchemaTestUtilities.checkSchemaResultErrorCodes(result, ['SIZE'])).toBe(true)
+    })
+  })
+})
