@@ -6,10 +6,14 @@ export default class NumberRangeRequirement extends Requirement {
   private maximumValue: number | undefined
 
   public setMinimumValue(minimumValue: number): void {
+    if (this.maximumValue && minimumValue > this.maximumValue) throw new Error('Minimum value cannot be higher than maximum value')
+
     this.minimumValue = minimumValue
   }
 
   public setMaximumValue(maximumValue: number): void {
+    if (this.minimumValue && maximumValue < this.minimumValue) throw new Error('Maximum value cannot be lower than minimum value')
+
     this.maximumValue = maximumValue
   }
 
