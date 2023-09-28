@@ -2,10 +2,20 @@ import RequirementValidationResults from '../../types/requirements/RequirementVa
 import type SchemaValidationResults from '../../types/schema/SchemaValidationResults.d'
 import Requirement from '../requirements/reqirement'
 
-export default abstract class Schema {
+export default abstract class Schema<T> {
   private requirements: Requirement[] = []
+  private defaultValue: T | undefined
 
-  public validate<T>(value: T): SchemaValidationResults<T> {
+  public default(value: T) {
+    if (this.defaultValue) throw new Error('Default value is already set')
+    this.defaultValue = value
+
+    return this
+  }
+
+  public validate(input: any): SchemaValidationResults<T> {
+    const value = this.getValueWithDefaultApplied(input)
+
     const requirementValidationResults = this.validateAllRequirements(value)
     const success = Requirement.areRequirementValidationResultsOK(requirementValidationResults)
 
@@ -29,6 +39,14 @@ export default abstract class Schema {
     }
 
     return requirement
+  }
+
+  private getValueWithDefaultApplied(value: any) {
+    const valueIsUnset = value === undefined || value === null
+    const hasDefaultValue = this.defaultValue !== undefined
+
+    if (valueIsUnset && hasDefaultValue) return this.defaultValue
+    return value
   }
 
   private getRequirement<T extends Requirement>(requirementClass: new () => T): T | undefined {
