@@ -14,6 +14,24 @@ TS-Fuse allows you to validate user input. Currently we support validating `Stri
 
 `pnpm i ts-fuse`
 
+### Importing
+
+#### TypeScript
+
+```typescript
+import f from 'ts-fuse
+```
+
+#### JavaScript
+
+```javascript
+import * as f from 'ts-fuse' // ES6
+// or
+const { default: f } = require('ts-fuse') // CommonJS
+```
+
+_Importing in JS is currently a bit weird, but the issue is known and the progress can be followed on [this issue](https://github.com/esaiaswestberg/ts-fuse/issues/11)._
+
 ### Create your first schema
 
 ```typescript
