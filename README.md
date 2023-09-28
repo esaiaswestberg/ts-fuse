@@ -131,7 +131,8 @@ const maxSchema = f.Number().max(5) // Ensures the number is at most 5.
 const positiveSchema = f.Number().positive() // Ensures the number is positive.
 const negativeSchema = f.Number().negative() // Ensures the number is negative.
 
-/* A number schema can also be used to ensure the number is a certain type. */
+/* A number schema can also be used to ensure the integer has a certain parity. */
+/* Disclaimer: This requires the schema to have an integer check first! */
 const evenSchema = f.Number().even() // Ensures the number is even.
 const oddSchema = f.Number().odd() // Ensures the number is odd.
 ```

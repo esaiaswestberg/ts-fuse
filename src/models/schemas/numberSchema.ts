@@ -1,4 +1,5 @@
 import NumberIntegerRequirement from '../requirements/number/numberIntegerRequirement'
+import NumberParityRequirement from '../requirements/number/numberParityRequirement'
 import NumberRangeRequirement from '../requirements/number/numberRangeRequirement'
 import NumberRequirement from '../requirements/number/numberRequirement'
 import NumberSignRequirement from '../requirements/number/numberSignRequirement'
@@ -40,6 +41,24 @@ export default class Number extends Schema<number> {
   public negative(): Number {
     const numberSignRequirement = this.addRequirement(NumberSignRequirement)
     numberSignRequirement.setNegative()
+
+    return this
+  }
+
+  public even(): Number {
+    if (!this.hasRequirement(NumberIntegerRequirement)) throw new Error('Parity can only be set on integers')
+
+    const numberParityRequirement = this.addRequirement(NumberParityRequirement)
+    numberParityRequirement.setEven()
+
+    return this
+  }
+
+  public odd(): Number {
+    if (!this.hasRequirement(NumberIntegerRequirement)) throw new Error('Parity can only be set on integers')
+
+    const numberParityRequirement = this.addRequirement(NumberParityRequirement)
+    numberParityRequirement.setOdd()
 
     return this
   }
