@@ -17,6 +17,20 @@ export default class String extends Schema<string> {
     return this
   }
 
+  public minLength(minLength: number): String {
+    const stringLengthRequirement = this.addRequirement(StringLengthRequirement)
+    stringLengthRequirement.setMinimumLength(minLength)
+
+    return this
+  }
+
+  public maxLength(maxLength: number): String {
+    const stringLengthRequirement = this.addRequirement(StringLengthRequirement)
+    stringLengthRequirement.setMaximumLength(maxLength)
+
+    return this
+  }
+
   public regex(regexPattern: RegExp | string): String {
     const stringRegexRequirement = this.addRequirement(StringRegexRequirement)
 

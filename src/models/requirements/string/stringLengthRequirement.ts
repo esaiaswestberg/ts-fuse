@@ -3,26 +3,26 @@ import Requirement from '../reqirement'
 
 export default class StringLengthRequirement extends Requirement {
   private length: number | undefined
-  private min: number | undefined
-  private max: number | undefined
+  private minimumLength: number | undefined
+  private maximumLength: number | undefined
 
   public setLength(length: number) {
-    if (this.min || this.max) throw new Error('Cannot set length when min or max is set')
+    if (this.minimumLength || this.maximumLength) throw new Error('Cannot set length when min or max is set')
     this.length = length
   }
 
-  public setMin(min: number) {
+  public setMinimumLength(min: number) {
     if (this.length) throw new Error('Cannot set min when length is set')
-    if (this.max && min > this.max) throw new Error('Cannot set min greater than max')
+    if (this.maximumLength && min > this.maximumLength) throw new Error('Cannot set min greater than max')
 
-    this.min = min
+    this.minimumLength = min
   }
 
-  public setMax(max: number) {
+  public setMaximumLength(max: number) {
     if (this.length) throw new Error('Cannot set max when length is set')
-    if (this.min && max < this.min) throw new Error('Cannot set max less than min')
+    if (this.minimumLength && max < this.minimumLength) throw new Error('Cannot set max less than min')
 
-    this.max = max
+    this.maximumLength = max
   }
 
   public validate(value: string): RequirementValidationResults {
@@ -52,13 +52,13 @@ export default class StringLengthRequirement extends Requirement {
   }
 
   private validateMinLength(value: string): RequirementValidationResults {
-    if (this.min && value.length >= this.min) {
+    if (this.minimumLength && value.length < this.minimumLength) {
       return {
         success: false,
         errors: [
           {
             code: 'LENGTH',
-            message: `Value must be at least ${this.min} characters long`
+            message: `Value must be at least ${this.minimumLength} characters long`
           }
         ]
       }
@@ -68,13 +68,13 @@ export default class StringLengthRequirement extends Requirement {
   }
 
   private validateMaxLength(value: string): RequirementValidationResults {
-    if (this.max && value.length <= this.max) {
+    if (this.maximumLength && value.length > this.maximumLength) {
       return {
         success: false,
         errors: [
           {
             code: 'LENGTH',
-            message: `Value must be at most ${this.max} characters long`
+            message: `Value must be at most ${this.maximumLength} characters long`
           }
         ]
       }
