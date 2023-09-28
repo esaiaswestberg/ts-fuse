@@ -29,3 +29,27 @@ describe('Boolean schema', () => {
     })
   })
 })
+
+describe('defaults', () => {
+  const schema = f.Boolean().default(true)
+
+  describe('when value is set', () => {
+    test('value is returned', () => {
+      const result = schema.validate(false)
+      expect(result.success).toBe(true)
+
+      if (result.success) expect(result.value).toBe(false)
+      else fail('Result was not successful')
+    })
+  })
+
+  describe('when value is not set', () => {
+    test('default value is returned', () => {
+      const result = schema.validate(undefined)
+      expect(result.success).toBe(true)
+
+      if (result.success) expect(result.value).toBe(true)
+      else fail('Result was not successful')
+    })
+  })
+})
