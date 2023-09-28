@@ -1,8 +1,33 @@
 # TS-Fuse
 
-## Description
+## Getting started
 
-TS-Fuse is a library to help developers ensure type safety in their runtime environment. It allows you to make sure a variable has the type and/or structure you expect it to have.
+TS-Fuse allows you to validate user input. Currently we support validating `String`, `Number` & `Boolean` variables. To get started install `ts-fuse` like this:
+
+### Installation
+
+#### NPM
+
+`npm i ts-fuse`
+
+#### PNPM
+
+`pnpm i ts-fuse`
+
+### Create your first schema
+
+```typescript
+import f from 'ts-fuse'
+
+const stringSchema = f.String()
+
+const value = 'This is your user input!'
+const { success } = stringSchema.validate(value)
+
+console.log(`Validation ${success ? 'was successful' : 'failed'}!`)
+```
+
+When you need more advanced validation, go and look at [Documentation](#documentation).
 
 ## Documentation
 
